@@ -43,9 +43,8 @@ class FrontendController extends Controller
            
         ]);
 
-        // $method=payment::where('id',$request->method)->get()->first();
         $user=User::find(auth()->user()->id);
-        if ($request->type=='withdraw') {
+        if ($request->type=='withdraw' ||$request->type=='Withdraw' ) {
             $user->update(
                 [
                     'main_balance' =>$user->main_balance-$request->amount,
@@ -68,7 +67,7 @@ class FrontendController extends Controller
 
         ]);
         return response()->json([
-            'message'=>'Your transection request done.Wait few moment for change  balence',
+            'message'=>'Your transection request done.Wait few moment for change  balance',
             'status' => $request->status,
             'user_id' => auth()->user()->id,
             'method' => $request->method,
@@ -83,13 +82,24 @@ class FrontendController extends Controller
     }
     public function transaction(Request $request)
     {
-        $allTransaction=transaction::with('method')->orderBy('id', 'desc')->get();
-        $authTransaction = transaction::where('user_id',auth()->user()->id)->with('method')->orderBy('id', 'desc')->get();
+        if (auth()->user()->role == '0') {
+            $allTransaction=transaction::all()->orderBy('id', 'desc')->get();
+        $authTransaction = transaction::where('user_id',auth()->user()->id)->orderBy('id', 'desc')->get();
         return response()->json([
             'allTransaction'=>$allTransaction,
             'authTransaction'=>$authTransaction
 
         ]);
+        }else {
+            $allTransaction='';
+            $authTransaction = transaction::where('user_id',auth()->user()->id)->orderBy('id', 'desc')->get();
+        return response()->json([
+            'allTransaction'=>$allTransaction,
+            'authTransaction'=>$authTransaction
+
+        ]);
+        }
+       
     }
     
     public function vip(Request $request)
