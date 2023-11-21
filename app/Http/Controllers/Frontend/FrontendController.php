@@ -82,8 +82,8 @@ class FrontendController extends Controller
     }
     public function transaction(Request $request)
     {
-        if (auth()->user()->role == '0') {
-            $allTransaction=transaction::all()->orderBy('id', 'desc')->get();
+        if (auth()->user()->role === '0') {
+            $allTransaction=transaction::orderBy('id', 'desc')->get();
         $authTransaction = transaction::where('user_id',auth()->user()->id)->orderBy('id', 'desc')->get();
         return response()->json([
             'allTransaction'=>$allTransaction,

@@ -249,9 +249,11 @@ class adminController extends Controller
     public function user_delete(Request $request)
     {
         $id=$request->id;
+        $user=User::find($id)->get();
         $res = User::find($id)->delete();
      
         return response()->json([
+            'user'=>$user,
             'message'=>'Delete done!',
           
 
@@ -418,17 +420,29 @@ class adminController extends Controller
         $user=User::find($transaction->user_id);
         if ($request->status=='success') {
            
-            if ($transaction->type=='deposit') {
-                $user->update(
-                    [
-                        'main_balance' =>$user->main_balance+$transaction->price,
-                        
-        
-                    ]
-                );
+            if ($transaction->type =='deposit') {
+                if ($transaction->address == 'wallet' || $transaction->address == 'Wallet') {
+                    $user->update(
+                        [
+                            'main_balance' =>$user->main_balance+$transaction->amount,
+                            
+            
+                        ]
+                    );
+                } else {
+                    $user->update(
+                        [
+                            'live_balance' =>$user->live_balance+$transaction->amount,
+                            
+            
+                        ]
+                    );
+                }
+                
+                
             }
             
-            $transaction->update(
+            $status= $transaction->update(
                 [
                     'status' =>'success',
                     
@@ -438,7 +452,8 @@ class adminController extends Controller
         }else{
 
             if ($transaction->type=='deposit') {
-                $transaction->update(
+
+                $status= $transaction->update(
                     [
                         'status' =>'rejected',
                         
@@ -448,20 +463,32 @@ class adminController extends Controller
                 );
             } else {
 
-                $transaction->update(
+                $status=$transaction->update(
                     [
                         'status' =>'rejected',
                         
         
                     ]
                 );
-                $user->update(
-                    [
-                        'main_balance' =>$user->main_balance+$transaction->price,
-                        
-        
-                    ]
-                );
+                if ($transaction->address == 'wallet' || $transaction->address == 'Wallet') {
+                    $user->update(
+                        [
+                            'main_balance' =>$user->main_balance+$transaction->amount,
+                            
+            
+                        ]
+                    );
+                } else {
+                    $user->update(
+                        [
+                            'live_balance' =>$user->live_balance+$transaction->amount,
+                            
+            
+                        ]
+                    );
+                }
+                
+                
             }
             
 
@@ -472,7 +499,7 @@ class adminController extends Controller
      
         return response()->json([
             'message'=>'Transaction update done!',
-            
+            'status'=>$status
 
         ]);
     }
