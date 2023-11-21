@@ -21,8 +21,8 @@ return new class extends Migration
             $table->string('role')->default(1);
             $table->string('main_balance')->default(0);
             $table->string('live_balance')->default(0);
-            $table->string('wallet')->default(0);
-            $table->string('birth')->default(1000)->unique();
+            $table->string('wallet')->default(0)->unique();
+            $table->string('birth')->default(1000);
             $table->string('country')->nullable();
             $table->string('Phone')->nullable();
             $table->timestamp('email_verified_at')->nullable();

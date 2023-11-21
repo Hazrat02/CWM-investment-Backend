@@ -38,16 +38,17 @@ class FrontendController extends Controller
     {
         $request->validate([
        
-            'price' => 'required',
+            'amount' => 'required',
+
            
         ]);
 
-        $method=payment::where('id',$request->method)->get()->first();
+        // $method=payment::where('id',$request->method)->get()->first();
         $user=User::find(auth()->user()->id);
         if ($request->type=='withdraw') {
             $user->update(
                 [
-                    'main_balance' =>$user->main_balance-$request->price,
+                    'main_balance' =>$user->main_balance-$request->amount,
                     
     
                 ]
@@ -60,24 +61,20 @@ class FrontendController extends Controller
             'method' => $request->method,
             'type' => $request->type,
 
-            'network' => $request->network,
-            'price' => $request->price,
-            'trxid' => $request->trxid,
+            'amount' => $request->amount,
 
             'address' => $request->address,
 
 
         ]);
         return response()->json([
-            'message'=>'Your deposit request done.Wait few moment adding balence',
+            'message'=>'Your transection request done.Wait few moment for change  balence',
             'status' => $request->status,
             'user_id' => auth()->user()->id,
-            'method' => $method,
+            'method' => $request->method,
             'type' => $request->type,
 
-            'network' => $request->network,
-            'price' => $request->price,
-            'trxid' => $request->trxid,
+            'amount' => $request->amount,
 
             'address' => $request->address,
             'created_at' => now(),

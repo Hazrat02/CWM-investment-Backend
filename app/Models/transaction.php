@@ -25,17 +25,19 @@ class transaction extends Authenticatable implements JWTSubject
         'method',
         'type',
         'status',
-        'network',
-        'price',
+    
+
+        'amount',
         'address',
-        'trxid'
+       
        
     ];
 
 
+
     
-    public function method(): HasOne
-    {
-        return $this->HasOne(payment::class,'id','method');
-    }
+    // public function method(): HasOne
+    // {
+    //     return $this->HasOne(payment::class,'id','method');
+    // }
 }

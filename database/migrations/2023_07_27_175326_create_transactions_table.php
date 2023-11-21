@@ -15,16 +15,13 @@ return new class extends Migration
     {
         Schema::create('transactions', function (Blueprint $table) {
             $table->id();
-            $table->string('user_id')->nullable();
-            $table->unsignedBigInteger('method')->unique();
-
+            $table->unsignedBigInteger('user_id')->unique();
+            $table->string('method')->nullable();
             $table->string('type')->nullable();
             $table->string('status')->nullable();
-            $table->string('network')->nullable();
-            $table->integer('price')->nullable();
+            $table->integer('amount')->nullable();
             $table->string('address')->nullable();
-            $table->string('trxid')->nullable();
-            $table->foreign('method')->references('id')->on('payments')->onDelete('cascade');
+            $table->foreign('user_id')->references('id')->on('Users')->onDelete('cascade');
 
             $table->timestamps();
         });
