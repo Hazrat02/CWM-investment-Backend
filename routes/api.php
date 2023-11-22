@@ -50,6 +50,7 @@ Route::group([
     Route::get('ask', [FrontendController::class,'ask']);
     Route::get('payment', [FrontendController::class,'payment_method'])->name('payment');
     Route::post('deposit', [FrontendController::class,'deposit']);
+    Route::post('kyc', [FrontendController::class,'kyc']);
     Route::get('transaction', [FrontendController::class,'transaction']);
     Route::get('vip', [FrontendController::class,'vip']);
     Route::get('work', [workController::class,'work']);
