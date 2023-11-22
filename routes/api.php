@@ -74,6 +74,8 @@ Route::group([
     Route::delete('ask.delete/{id}', [adminController::class,'ask_delete']);
     Route::delete('payment.delete/{id}', [adminController::class,'payment_delete']);
     Route::delete('unlock.delete/{id}', [adminController::class,'unlock_delete']);
+    Route::post('user/edit', [FrontendController::class,'user_edit']);
+    // Route::match(['put', 'patch'],'user/edit', [FrontendController::class,'user_edit']);
     Route::match(['put', 'patch'],'vip.edit/{id}', [adminController::class,'vip_edit']);
     Route::match(['put', 'patch'],'work.edit/{id}', [adminController::class,'work_edit']);
     Route::match(['put', 'patch'],'ask.edit/{id}', [adminController::class,'ask_edit']);

@@ -45,6 +45,10 @@ class FrontendController extends Controller
 
         $user=User::find(auth()->user()->id);
         if ($request->type=='withdraw' ||$request->type=='Withdraw' ) {
+
+
+            if ($request->address == 'wallet' || $request->address == 'Wallet' ) {
+                    
             $user->update(
                 [
                     'main_balance' =>$user->main_balance-$request->amount,
@@ -52,6 +56,17 @@ class FrontendController extends Controller
     
                 ]
             );
+            } else {
+                    
+            $user->update(
+                [
+                    'live_balance' =>$user->live_balance-$request->amount,
+                    
+    
+                ]
+            );
+            }
+        
         }
         
         $deposit = transaction::create([
@@ -120,6 +135,59 @@ class FrontendController extends Controller
        
         return response()->json([
             'ask'=>$ask,
+
+        ]);
+    }
+    public function user_edit(Request $request)
+    {
+        $user=User::find(auth()->user()->id);
+        if ($request->hasFile('profile')) {
+            $file = $request->file('profile');
+        
+        
+        $name =rand(0000000,999999) .$file->getClientOriginalName();
+        $file->move(public_path('img/profile'), $name);
+        $path=asset('img/profile/');
+       $url= $path.'/'.$name;
+       
+        }else{
+            $url=$user->profile;
+           
+
+        }
+
+
+        if ($request->password) {
+            $request->validate([
+                
+                'password' => 'required|string|min:6|confirmed',
+                
+                
+            ]);
+    
+
+            $password=Hash::make($request->password);
+        }else {
+            $password=$user->password;
+
+        }
+
+
+        $user->update(
+            [
+            
+            'password' =>$password ,
+            'profile'=>$url,
+            
+            'birth'=>$request->birth,
+            'Phone'=>$request->phone,
+            
+            ]
+        );
+       
+        return response()->json([
+            'user'=>$user,
+            'message'=>'User update done!'
 
         ]);
     }
