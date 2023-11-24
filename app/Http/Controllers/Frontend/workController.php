@@ -29,12 +29,12 @@ class workController extends Controller
     public function work(Request $request)
     {
 
-        $work = work::get();
+        $work = work::where('user_id',auth()->user()->id)->get()->first();
 
 
         return response()->json([
 
-            'work' => $work,
+            'economic' => $work,
 
         ]);
     }

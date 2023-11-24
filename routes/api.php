@@ -77,9 +77,9 @@ Route::group([
     Route::delete('unlock.delete/{id}', [adminController::class,'unlock_delete']);
     Route::post('user/edit', [FrontendController::class,'user_edit']);
     Route::post('payment.edit', [adminController::class,'payment_edit']);
+    Route::post('work.edit', [adminController::class,'work_edit']);
     // Route::match(['put', 'patch'],'user/edit', [FrontendController::class,'user_edit']);
     Route::match(['put', 'patch'],'vip.edit/{id}', [adminController::class,'vip_edit']);
-    Route::match(['put', 'patch'],'work.edit/{id}', [adminController::class,'work_edit']);
     Route::match(['put', 'patch'],'ask.edit/{id}', [adminController::class,'ask_edit']);
     Route::match(['put', 'patch'],'transaction.edit/{id}', [adminController::class,'transaction_edit']);
   

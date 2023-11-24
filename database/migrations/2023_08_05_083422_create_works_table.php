@@ -18,6 +18,7 @@ return new class extends Migration
 
             $table->unsignedBigInteger('user_id');
             $table->string('industry')->nullable();
+            $table->string('employ')->nullable();
             $table->string('source_of_income')->nullable();
             $table->string('est_annual_income')->nullable();
             $table->string('est_net_worth')->nullable();

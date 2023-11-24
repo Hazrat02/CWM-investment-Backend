@@ -347,29 +347,42 @@ class adminController extends Controller
     }
     public function work_edit(Request $request)
     {
-        $id=$request->id;
         
-        $work = work::find($id);
+        
+        $work = work::where('user_id',auth()->user()->id)->get()->first();
         // dd($user);
-        $work->update(
-            [
-                'name' => $request->name,
-                'description' => $request->description,
-                'earn' => $request->earn,
-                'vip_id' => $request->vip_id,
-                'component' => $request->component,
-               'icon'=>$request->icon,
+        
+       
+        
+        
+        
+        $work->Update([
 
-             
-
-            ]
-        );
-     
-        return response()->json([
-            'message'=>'Work update done!',
-            'work'=>$work
-
+         
+            'employ' => $request->employ,
+            'industry' => $request->industry,
+            'source_of_income' => $request->source_of_income,
+            'est_annual_income' => $request->est_annual_income,
+         
+            'est_net_worth' => $request->est_net_worth,
+            'ever_traded' => $request->ever_traded,
+            'previous_work_exp' =>$request->previous_work_exp,
+            'are_you_us_citizen' => $request->are_you_us_citizen,
+           
+         
+            
         ]);
+  
+        
+
+        return response()->json([
+            'status' => 'success',
+            'economic'=>$work,
+            'message' => 'economic Update successfully',
+           
+        ]);
+     
+       
     }
     
     public function ask_edit(Request $request)
