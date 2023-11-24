@@ -29,41 +29,56 @@ class adminController extends Controller
     }
     public function payment_method_create(Request $request)
     {
-        
-        $request->validate([
-            'name' => 'required|string|max:255',
-            'method' => 'required|string|max:255',
-            'network' => 'required|string|max:255',
-            'address' => 'required|string|max:255',
-            
-           
-        ]);
-      
+ 
        
     
-        if (auth()->user()->role === '0') {
-            if ($request->hasFile('image')) {
-                $file = $request->file('image');
+       
+            if ($request->hasFile('qr')) {
+                $file = $request->file('qr');
             
             
             $name =rand(0000000,999999) .$file->getClientOriginalName();
             $file->move(public_path('img/method'), $name);
             $path=asset('img/method/');
-           $url= $path.'/'.$name;
+           $qrurl= $path.'/'.$name;
            
             }else{
-                $url='';
+                $qrurl='';
+               
+    
+            }
+            if ($request->hasFile('doc')) {
+                $file = $request->file('doc');
+            
+            
+            $name =rand(0000000,999999) .$file->getClientOriginalName();
+            $file->move(public_path('img/method'), $name);
+            $path=asset('img/method/');
+           $docurl= $path.'/'.$name;
+           
+            }else{
+                $docurl='';
                
     
             }
             $payment = payment::create([
-                'name' => $request->name,
-                'method' => $request->method,
-                'network' => $request->network,
-                'address' => $request->method,
-                'image' => $url,
                
+                'user_id' => auth()->user()->id,
+                'method' => $request->method,
+                'qr' => $qrurl,
+                'doc' => $docurl,
+               
+               
+          
+                'wallet_address' => $request->wallet_address,
+                'bank_address' => $request->bank_address,
+                'tag' => $request->tag,
+             
+                'holder' => $request->holder,
+                'bank_name' => $request->bank_name,
+                'ifsc' => $request->ifsc,
                 
+        
             ]);
             
     
@@ -73,13 +88,7 @@ class adminController extends Controller
                 'payment'=>$payment
                
             ]);
-            } else {
-                return response()->json([
-                    'status' => 'error',
-                    'message' => 'Sorry!You are not admin',
-                   
-                ]);
-            }
+            
     }
     public function vip_store(Request $request)
     {
@@ -157,48 +166,45 @@ class adminController extends Controller
     public function work_store(Request $request)
     {
        
-        $request->validate([
-            'name' => 'required|string|max:255',
-            'vip_id' => 'required|string|max:255',
-            'description' => 'required|string|max:255',
-            'earn' => 'required|string|max:255',
-            
-           
-        ]);
-        $vip_id = [
-            ['name' => 'bal', 'id' => '1'],
-            ['name' => 'bal', 'id' => '2'],
-            ['name' => 'bal', 'id' => '3'],
-        ];
-        
+   
        
         
-        if (auth()->user()->role === '0') {
-           
+        
+          $user=User::find(auth()->user()->id); 
         $work = work::create([
-            'name' => $request->name,
-            'description' => $request->description,
-            'vip_id' => $vip_id,
-            'icon' => $request->icon,
-            'earn' => $request->earn,
+
+         
+            'user_id' => auth()->user()->id,
+            'employ' => $request->employ,
+            'industry' => $request->industry,
+            'source_of_income' => $request->source_of_income,
+            'est_annual_income' => $request->est_annual_income,
+         
+            'est_net_worth' => $request->est_net_worth,
+            'ever_traded' => $request->ever_traded,
+            'previous_work_exp' =>$request->previous_work_exp,
+            'are_you_us_citizen' => $request->are_you_us_citizen,
+           
          
             
         ]);
+        $user->update(
+            [
+
+                'ec_kyc' => 'pending',
+
+
+            ]
+            );
         
 
         return response()->json([
             'status' => 'success',
-            'work'=>$work,
-            'message' => 'Work created successfully',
+            'economic'=>$work,
+            'message' => 'economic created successfully',
            
         ]);
-        } else {
-            return response()->json([
-                'status' => 'error',
-                'error' => 'Sorry!You are not admin',
-               
-            ]);
-        }
+       
        
     }
     public function ask_store(Request $request)
@@ -390,21 +396,70 @@ class adminController extends Controller
     
     public function payment_edit(Request $request)
     {
-        $id=$request->id;
+    
         
-        $payment = payment::find($id);
-        // dd($user);
-        $payment->update(
-            [
-                'name' => $request->name,
-                'method' => $request->method,
-                'network' => $request->network,
-                'image' => $request->image,
-                'address' => $request->address,
-             
+        $payment = payment::where('user_id',auth()->user()->id)->get()->first();
 
-            ]
-        );
+        // $paymentedit = payment::where('user_id',auth()->user()->id);
+        // dd($user);
+        
+    
+       
+        if ($request->hasFile('qr')) {
+            $file = $request->file('qr');
+        
+        
+        $name =rand(0000000,999999) .$file->getClientOriginalName();
+        $file->move(public_path('img/method'), $name);
+        $path=asset('img/method/');
+       $qrurl= $path.'/'.$name;
+       
+        }else{
+            $qrurl= $payment->qr;
+           
+
+        }
+        if ($request->hasFile('doc')) {
+            $file = $request->file('doc');
+        
+        
+        $name =rand(0000000,999999) .$file->getClientOriginalName();
+        $file->move(public_path('img/method'), $name);
+        $path=asset('img/method/');
+       $docurl= $path.'/'.$name;
+       
+        }else{
+            $docurl=$payment->doc;
+           
+
+        }
+        $payment->update([
+           
+            'user_id' => auth()->user()->id,
+            'method' => $request->method,
+            'qr' => $qrurl,
+            'doc' => $docurl,
+           
+           
+      
+            'wallet_address' => $request->wallet_address,
+            'bank_address' => $request->bank_address,
+            'tag' => $request->tag,
+         
+            'holder' => $request->holder,
+            'bank_name' => $request->bank_name,
+            'ifsc' => $request->ifsc,
+            
+    
+        ]);
+        
+
+        return response()->json([
+            'status' => 'success',
+            'message' => 'Method Update successfully',
+            'payment'=>$payment
+           
+        ]);
      
         return response()->json([
             'message'=>'Payment update done!',

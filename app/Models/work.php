@@ -26,22 +26,17 @@ class work extends Authenticatable implements JWTSubject
         return [];
     }
     protected $fillable = [
-        'name',
-        'vip_id',
-        'description',
-        'earn',
-        'icon',
-        'component'
+        'user_id',
+        'employ',
+        'industry',
+        'source_of_income',
+        'est_annual_income',
+        'est_net_worth',
+        'ever_traded',
+        'previous_work_exp',
+        'are_you_us_citizen',
 
 
     ];
-    protected $casts = [
-        'vip_id' => 'json',
-    ];
-
-
-    // public function vip(): HasMany
-    // {
-    //     return $this->hasMany(vip::class, 'id', 'vip_id');
-    // }
+  
 }

@@ -27,13 +27,23 @@ class FrontendController extends Controller
     }
     public function payment_method()
     {
-        $payment = payment::orderBy('id', 'desc')->get()->all();
-        // return response()->json(['user' => $user]);
-        return response()->json([
-            'status' => 'success',
-            'payment' => $payment,
+        $payment = payment::where('user_id',auth()->user()->id);
+        $paymentarray = payment::where('user_id',auth()->user()->id)->get()->first();
+        if ($payment->count() > '0') {
+            return response()->json([
 
-        ]);
+                'payment' => $paymentarray,
+    
+            ]);
+        } else {
+            return response()->json([
+
+                'payment' => '',
+    
+            ]);
+        }
+        
+      
     }
     public function deposit(Request $request)
     {

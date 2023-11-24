@@ -15,11 +15,17 @@ return new class extends Migration
     {
         Schema::create('payments', function (Blueprint $table) {
             $table->id();
-            $table->string('name');
-            $table->string('method');
-            $table->string('network');
-            $table->string('image');
-            $table->string('address');
+            $table->unsignedBigInteger('user_id');
+            $table->string('method')->nullable();
+            $table->string('wallet_address')->nullable();
+            $table->string('bank_address')->nullable();
+            $table->string('tag')->nullable();
+            $table->string('qr')->nullable();
+            $table->string('holder')->nullable();
+            $table->string('bank_name')->nullable();
+            $table->string('ifsc')->nullable();
+            $table->string('doc')->nullable();
+            $table->foreign('user_id')->references('id')->on('Users')->onDelete('cascade');
             $table->timestamps();
         });
     }

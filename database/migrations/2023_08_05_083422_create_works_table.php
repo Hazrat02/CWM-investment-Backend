@@ -15,12 +15,16 @@ return new class extends Migration
     {
         Schema::create('works', function (Blueprint $table) {
             $table->id();
-            $table->string('name')->nullable();
-            $table->string('component')->nullable();
-            $table->json('vip_id')->nullable();
-            $table->string('description')->nullable();
-            $table->string('earn')->nullable();
-            $table->string('icon')->nullable();
+
+            $table->unsignedBigInteger('user_id');
+            $table->string('industry')->nullable();
+            $table->string('source_of_income')->nullable();
+            $table->string('est_annual_income')->nullable();
+            $table->string('est_net_worth')->nullable();
+            $table->string('ever_traded')->nullable();
+            $table->string('previous_work_exp')->nullable();
+            $table->string('are_you_us_citizen')->nullable();
+            $table->foreign('user_id')->references('id')->on('Users')->onDelete('cascade');
             
             $table->timestamps();
         });

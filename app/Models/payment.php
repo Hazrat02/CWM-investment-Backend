@@ -28,10 +28,16 @@ class payment extends Authenticatable implements JWTSubject
         return [];
     }
     protected $fillable = [
-        'name',
+        'user_id',
         'method',
-        'network',
-        'image',
-        'address'
+        'wallet_address',
+        'bank_address',
+        'tag',
+        'qr',
+        'holder',
+        'bank_name',
+        'ifsc',
+        'doc'
+
     ];
 }
