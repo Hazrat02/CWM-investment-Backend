@@ -78,7 +78,7 @@ class AuthController extends Controller
         
         $name =rand(0000000,999999) .$file->getClientOriginalName();
         $file->move(public_path('img/profile'), $name);
-        $path=asset('img/profile/');
+        $path=asset('public/img/profile/');
        $url= $path.'/'.$name;
        
         }else{
