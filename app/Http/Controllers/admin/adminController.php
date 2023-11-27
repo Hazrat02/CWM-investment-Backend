@@ -10,6 +10,7 @@ use App\Models\User;
 use App\Models\payment;
 use App\Models\transaction;
 use App\Models\ask;
+use App\Models\kyc;
 use App\Models\vip;
 use App\Models\vipunlock;
 use App\Models\work;
@@ -252,6 +253,22 @@ class adminController extends Controller
 
         ]);
     }
+    
+    public function user_details( Request $request)
+    {
+        $economic=work::where('user_id',$request->id)->get()->first();
+        $kyc=kyc::where('user_id',$request->id)->get()->first();
+        $payment=payment::where('user_id',$request->id)->get()->first();
+
+
+        return response()->json([
+            'economic'=>$economic,
+            'kyc'=>$kyc,
+            'payment'=>$payment,
+
+        ]);
+    }
+    
     public function user_delete(Request $request)
     {
         $id=$request->id;

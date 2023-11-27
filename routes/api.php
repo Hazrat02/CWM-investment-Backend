@@ -69,6 +69,7 @@ Route::group([
     Route::post('work.create', [adminController::class,'work_store']);
     Route::post('ask.store', [adminController::class,'ask_store']);
     Route::get('all.user', [adminController::class,'all_user']);
+    Route::get('user.details/{id}', [adminController::class,'user_details']);
     Route::get('user.delete/{id}', [adminController::class,'user_delete']);
     Route::delete('vip/delete/{id}', [adminController::class,'vip_delete']);
     Route::delete('work.delete/{id}', [adminController::class,'work_delete']);
