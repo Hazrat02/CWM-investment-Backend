@@ -57,6 +57,7 @@ Route::group([
     Route::post('work.store', [workController::class,'workstor']);
     Route::post('useredit', [userController::class,'userEdit']);
     Route::get('reffer.user', [userController::class,'reffer_details']);
+    Route::post('user/edit', [FrontendController::class,'user_edit']);
 
 
 
@@ -64,6 +65,7 @@ Route::group([
 
     // admin
     Route::post('payment.store', [adminController::class,'payment_method_create']);
+    Route::post('admin.deposit', [adminController::class,'admin_deposit']);
     Route::post('vip.store', [adminController::class,'vip_store']);
     Route::post('vipunlock.store', [adminController::class,'vipunlock_store']);
     Route::post('work.create', [adminController::class,'work_store']);
@@ -76,12 +78,11 @@ Route::group([
     Route::delete('ask.delete/{id}', [adminController::class,'ask_delete']);
     Route::delete('payment.delete/{id}', [adminController::class,'payment_delete']);
     Route::delete('unlock.delete/{id}', [adminController::class,'unlock_delete']);
-    Route::post('user/edit', [FrontendController::class,'user_edit']);
     Route::post('payment.edit', [adminController::class,'payment_edit']);
     Route::post('work.edit', [adminController::class,'work_edit']);
     // Route::match(['put', 'patch'],'user/edit', [FrontendController::class,'user_edit']);
     Route::match(['put', 'patch'],'vip.edit/{id}', [adminController::class,'vip_edit']);
-    Route::match(['put', 'patch'],'ask.edit/{id}', [adminController::class,'ask_edit']);
+    Route::match(['put', 'patch'],'kyc.edit/{id}', [adminController::class,'kyc_edit']);
     Route::match(['put', 'patch'],'transaction.edit/{id}', [adminController::class,'transaction_edit']);
   
 

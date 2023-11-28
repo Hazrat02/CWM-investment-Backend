@@ -245,6 +245,92 @@ class adminController extends Controller
         }
        
     }
+    public function admin_deposit(Request $request)
+    {
+        $request->validate([
+
+            'amount' => 'required',
+
+
+        ]);
+
+        $user = User::where('id',$request->id)->get()->first();
+
+        if ($request->type == 'withdraw' || $request->type == 'Withdraw') {
+
+
+            if ($request->address == 'wallet' || $request->address == 'Wallet') {
+
+                $user->update(
+                    [
+                        'main_balance' => $user->main_balance - $request->amount,
+
+
+                    ]
+                );
+            }
+            
+            
+            if($request->address == 'live' || $request->address == 'Live') {
+
+                $user->update(
+                    [
+                        'live_balance' => $user->live_balance - $request->amount,
+
+
+                    ]
+                );
+            }
+        }else{
+
+            if ($request->address == 'wallet' || $request->address == 'Wallet') {
+
+                $user->update(
+                    [
+                        'main_balance' => $user->main_balance + $request->amount,
+
+
+                    ]
+                );
+            }
+            
+            
+            if($request->address == 'live' || $request->address == 'Live') {
+
+                $user->update(
+                    [
+                        'live_balance' => $user->live_balance + $request->amount,
+
+
+                    ]
+                );
+            }
+
+        }
+
+        $deposit = transaction::create([
+            'status' => 'success',
+            'user_id' => $request->id,
+            'method' => $request->method,
+            'type' => $request->type,
+
+            'amount' => $request->amount,
+
+            'address' => $request->address,
+            'created_at' => now(),
+
+        ]);
+        return response()->json([
+            'message' => 'Your transection done.',
+            'status' => 'success',
+            'user' => $user,
+            'transection' => $deposit,
+            
+
+            
+
+        ]);
+    }
     public function all_user()
     {
         $alluser=User::get();
@@ -402,24 +488,25 @@ class adminController extends Controller
        
     }
     
-    public function ask_edit(Request $request)
+    public function kyc_edit(Request $request)
     {
-        $id=$request->id;
+    
         
-        $ask = ask::find($id);
+        $user = User::where('id',$request->id)->get()->first();
         // dd($user);
-        $ask->update(
+
+        $user->update(
             [
-                'ask' => $request->ask,
-                'ans' => $request->ans,
+                $request->type => 'success',
+                
                
 
             ]
         );
      
         return response()->json([
-            'message'=>'Ask update done!',
-            'ask'=>$ask
+            'message'=>'KYC update done!',
+            'user'=>$user
 
         ]);
     }
@@ -502,7 +589,7 @@ class adminController extends Controller
         $id=$request->id;
         
         $transaction = transaction::find($id);
-        $user=User::find($transaction->user_id);
+        $user=User::where('id',$transaction->user_id)->get()->first();
         if ($request->status=='success') {
            
             if ($transaction->type =='deposit') {
@@ -558,7 +645,7 @@ class adminController extends Controller
                 if ($transaction->address == 'wallet' || $transaction->address == 'Wallet') {
                     $user->update(
                         [
-                            'main_balance' =>$user->main_balance+$transaction->amount,
+                            'main_balance' =>$user->main_balance + $transaction->amount,
                             
             
                         ]
@@ -566,7 +653,7 @@ class adminController extends Controller
                 } else {
                     $user->update(
                         [
-                            'live_balance' =>$user->live_balance+$transaction->amount,
+                            'live_balance' =>$user->live_balance + $transaction->amount,
                             
             
                         ]

@@ -54,7 +54,7 @@ class FrontendController extends Controller
 
         ]);
 
-        $user = User::find(auth()->user()->id);
+        $user = User::find(auth()->user()->id)->get()->first();
         if ($request->type == 'withdraw' || $request->type == 'Withdraw') {
 
 
@@ -67,7 +67,10 @@ class FrontendController extends Controller
 
                     ]
                 );
-            } else {
+            }
+            
+            
+            if($request->address == 'live' || $request->address == 'Live') {
 
                 $user->update(
                     [
@@ -96,6 +99,7 @@ class FrontendController extends Controller
             'status' => $request->status,
             'user_id' => auth()->user()->id,
             'method' => $request->method,
+            
             'type' => $request->type,
 
             'amount' => $request->amount,
