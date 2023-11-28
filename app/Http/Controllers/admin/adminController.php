@@ -254,82 +254,92 @@ class adminController extends Controller
 
         ]);
 
+
+
         $user = User::where('id',$request->id)->get()->first();
 
-        if ($request->type == 'withdraw' || $request->type == 'Withdraw') {
 
 
-            if ($request->address == 'wallet' || $request->address == 'Wallet') {
 
-                $user->update(
-                    [
-                        'main_balance' => $user->main_balance - $request->amount,
+            if ($request->type == 'withdraw' || $request->type == 'Withdraw') {
 
 
-                    ]
-                );
+                if ($request->address == 'wallet' || $request->address == 'Wallet') {
+    
+                    $user->update(
+                        [
+                            'main_balance' => $user->main_balance - $request->amount,
+    
+    
+                        ]
+                    );
+                }
+                
+                
+                if($request->address == 'live' || $request->address == 'Live') {
+    
+                    $user->update(
+                        [
+                            'live_balance' => $user->live_balance - $request->amount,
+    
+    
+                        ]
+                    );
+                }
+            }else{
+    
+                if ($request->address == 'wallet' || $request->address == 'Wallet') {
+    
+                    $user->update(
+                        [
+                            'main_balance' => $user->main_balance + $request->amount,
+    
+    
+                        ]
+                    );
+                }
+                
+                
+                if($request->address == 'live' || $request->address == 'Live') {
+    
+                    $user->update(
+                        [
+                            'live_balance' => $user->live_balance + $request->amount,
+    
+    
+                        ]
+                    );
+                }
+    
             }
-            
-            
-            if($request->address == 'live' || $request->address == 'Live') {
-
-                $user->update(
-                    [
-                        'live_balance' => $user->live_balance - $request->amount,
-
-
-                    ]
-                );
-            }
-        }else{
-
-            if ($request->address == 'wallet' || $request->address == 'Wallet') {
-
-                $user->update(
-                    [
-                        'main_balance' => $user->main_balance + $request->amount,
-
-
-                    ]
-                );
-            }
-            
-            
-            if($request->address == 'live' || $request->address == 'Live') {
-
-                $user->update(
-                    [
-                        'live_balance' => $user->live_balance + $request->amount,
+    
+            $transection = transaction::create([
+                'status' => 'success',
+                'user_id' => $request->id,
+                'method' => $request->method,
+                'type' => $request->type,
+    
+                'amount' => $request->amount,
+    
+                'address' => $request->address,
+                'created_at' => now(),
+    
+    
+            ]);
+    
+    
+            return response()->json([
+                'message' => 'Your transection done.',
+                'status' => 'success',
+                'user' => $user,
+                'transection' => $transection,
+                ]);
 
 
-                    ]
-                );
-            }
+     
 
-        }
-
-        $deposit = transaction::create([
-            'status' => 'success',
-            'user_id' => $request->id,
-            'method' => $request->method,
-            'type' => $request->type,
-
-            'amount' => $request->amount,
-
-            'address' => $request->address,
-            'created_at' => now(),
-
-        ]);
-        return response()->json([
-            'message' => 'Your transection done.',
-            'status' => 'success',
-            'user' => $user,
-            'transection' => $deposit,
-            
 
             
-
-        ]);
     }
     public function all_user()
     {
@@ -675,6 +685,51 @@ class adminController extends Controller
 
         ]);
     }
+    public function transfer(Request $request)
+    {
+   
+        $user=User::where('id',$request->id)->get()->first();
+        if ($request->address=='Wallet'||$request->address=='wallet') {
+           
+        
+                    $user->update(
+                        [
+                            'main_balance' =>$user->main_balance-$request->amount,
+                            'live_balance' =>$user->live_balance+$request->amount,
+                            
+            
+                        ]
+                    );
+                
+                
+                
+            }else {
+                
+                $user->update(
+                    [
+                        'main_balance' =>$user->main_balance+$request->amount,
+                        'live_balance' =>$user->live_balance-$request->amount,
+                        
+        
+                    ]
+                );
+            }
+            
+  
+       
+            return response()->json([
+                'message'=>'Balance Transfer done!',
+                'user'=>$user
+    
+            ]);
+        }
+    
+       
+     
+
+
+
+
     
     
 }

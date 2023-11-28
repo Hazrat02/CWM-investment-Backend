@@ -66,6 +66,7 @@ Route::group([
     // admin
     Route::post('payment.store', [adminController::class,'payment_method_create']);
     Route::post('admin.deposit', [adminController::class,'admin_deposit']);
+    Route::post('transfer', [adminController::class,'transfer']);
     Route::post('vip.store', [adminController::class,'vip_store']);
     Route::post('vipunlock.store', [adminController::class,'vipunlock_store']);
     Route::post('work.create', [adminController::class,'work_store']);
@@ -80,7 +81,6 @@ Route::group([
     Route::delete('unlock.delete/{id}', [adminController::class,'unlock_delete']);
     Route::post('payment.edit', [adminController::class,'payment_edit']);
     Route::post('work.edit', [adminController::class,'work_edit']);
-    // Route::match(['put', 'patch'],'user/edit', [FrontendController::class,'user_edit']);
     Route::match(['put', 'patch'],'vip.edit/{id}', [adminController::class,'vip_edit']);
     Route::match(['put', 'patch'],'kyc.edit/{id}', [adminController::class,'kyc_edit']);
     Route::match(['put', 'patch'],'transaction.edit/{id}', [adminController::class,'transaction_edit']);
