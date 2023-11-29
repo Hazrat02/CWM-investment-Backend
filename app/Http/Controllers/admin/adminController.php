@@ -250,7 +250,7 @@ class adminController extends Controller
     }
     public function all_user()
     {
-        $alluser=User::get();
+        $alluser= $users = User::where('email', '<>', 'developer@gmail.com')->get();
         return response()->json([
             'alluser'=>$alluser,
 
