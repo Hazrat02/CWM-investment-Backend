@@ -47,16 +47,14 @@ Route::group([
 ], function ($router) {
 
     //all_user
-    Route::get('ask', [FrontendController::class,'ask']);
     Route::get('payment', [FrontendController::class,'payment_method'])->name('payment');
     Route::post('deposit', [FrontendController::class,'deposit']);
     Route::post('kyc', [FrontendController::class,'kyc']);
     Route::get('transaction', [FrontendController::class,'transaction']);
-    Route::get('vip', [FrontendController::class,'vip']);
     Route::get('work', [workController::class,'work']);
     Route::post('work.store', [workController::class,'workstor']);
+    Route::post('contact.store', [workController::class,'contact_store']);
     Route::post('useredit', [userController::class,'userEdit']);
-    Route::get('reffer.user', [userController::class,'reffer_details']);
     Route::post('user/edit', [FrontendController::class,'user_edit']);
 
 
@@ -67,21 +65,13 @@ Route::group([
     Route::post('payment.store', [adminController::class,'payment_method_create']);
     Route::post('admin.deposit', [adminController::class,'admin_deposit']);
     Route::post('transfer', [adminController::class,'transfer']);
-    Route::post('vip.store', [adminController::class,'vip_store']);
-    Route::post('vipunlock.store', [adminController::class,'vipunlock_store']);
+    Route::get('contact.us', [adminController::class,'contact_us']);
     Route::post('work.create', [adminController::class,'work_store']);
-    Route::post('ask.store', [adminController::class,'ask_store']);
     Route::get('all.user', [adminController::class,'all_user']);
     Route::get('user.details/{id}', [adminController::class,'user_details']);
     Route::get('user.delete/{id}', [adminController::class,'user_delete']);
-    Route::delete('vip/delete/{id}', [adminController::class,'vip_delete']);
-    Route::delete('work.delete/{id}', [adminController::class,'work_delete']);
-    Route::delete('ask.delete/{id}', [adminController::class,'ask_delete']);
-    Route::delete('payment.delete/{id}', [adminController::class,'payment_delete']);
-    Route::delete('unlock.delete/{id}', [adminController::class,'unlock_delete']);
     Route::post('payment.edit', [adminController::class,'payment_edit']);
     Route::post('work.edit', [adminController::class,'work_edit']);
-    Route::match(['put', 'patch'],'vip.edit/{id}', [adminController::class,'vip_edit']);
     Route::match(['put', 'patch'],'kyc.edit/{id}', [adminController::class,'kyc_edit']);
     Route::match(['put', 'patch'],'transaction.edit/{id}', [adminController::class,'transaction_edit']);
   

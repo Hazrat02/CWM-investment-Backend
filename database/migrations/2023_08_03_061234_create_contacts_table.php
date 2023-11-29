@@ -13,10 +13,14 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('asks', function (Blueprint $table) {
+        Schema::create('contacts', function (Blueprint $table) {
+         
             $table->id();
-            $table->longText('ask')->nullable();
-            $table->longText('ans')->nullable();
+            $table->string('name')->nullable();
+            $table->string('email')->nullable();
+            $table->string('sub')->nullable();
+            $table->text('sms')->nullable();
+          
             $table->timestamps();
         });
     }
@@ -28,6 +32,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('asks');
+        Schema::dropIfExists('vips');
     }
 };

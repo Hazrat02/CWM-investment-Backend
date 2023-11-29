@@ -54,7 +54,7 @@ class FrontendController extends Controller
 
         ]);
 
-        $user = User::find(auth()->user()->id)->get()->first();
+        $user = User::find(auth()->user()->id);
         if ($request->type == 'withdraw' || $request->type == 'Withdraw') {
 
 
@@ -130,27 +130,8 @@ class FrontendController extends Controller
         }
     }
 
-    public function vip(Request $request)
-    {
-        $vip = vip::with('vipunlock')->get();
-
-        return response()->json([
-            'vip' => $vip,
-
-        ]);
-    }
 
 
-
-    public function ask()
-    {
-        $ask = ask::orderBy('id', 'desc')->get();
-
-        return response()->json([
-            'ask' => $ask,
-
-        ]);
-    }
     public function user_edit(Request $request)
     {
         $user = User::find(auth()->user()->id);

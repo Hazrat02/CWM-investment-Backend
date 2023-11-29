@@ -9,10 +9,8 @@ use App\Http\Controllers\Controller;
 use App\Models\User;
 use App\Models\payment;
 use App\Models\transaction;
-use App\Models\ask;
-use App\Models\vip;
+use App\Models\contact;
 use App\Models\work;
-use App\Models\workdetails;
 use PhpParser\Node\Stmt\Return_;
 
 class workController extends Controller
@@ -24,7 +22,7 @@ class workController extends Controller
      */
     public function __construct()
     {
-        $this->middleware('auth:api', ['except' => ['login', 'register', 'ask', 'work']]);
+        $this->middleware('auth:api', ['except' => ['login', 'register', 'contact_store']]);
     }
     public function work(Request $request)
     {
@@ -38,32 +36,24 @@ class workController extends Controller
 
         ]);
     }
-    public function workstor(Request $request)
+    public function contact_store(Request $request)
     {
 
-        $request->validate([
-       
-            'work_id' => 'required',
-            'earn' => 'required',
-           
-        ]);
-        $work = workdetails::create([
-            'status' => 'pending',
-            'work_id' => $request->work_id,
-            'user_id' => $request->user_id,
-            'earn' => $request->earn,
-
-
-
-        ]);
-
-
+        $contact = contact::create(
+            [
+                'name'=>$request->name,
+                'email' =>$request->email,
+                'sub' =>$request->sub,
+                'sms' =>$request->sms,
+            ]
+        );
 
 
         return response()->json([
 
-            'work' => $work,
+            'message' => 'Thank You for give us message.We will contact with you later.',
 
         ]);
     }
+
 }

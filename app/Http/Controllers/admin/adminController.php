@@ -9,10 +9,8 @@ use App\Http\Controllers\Controller;
 use App\Models\User;
 use App\Models\payment;
 use App\Models\transaction;
-use App\Models\ask;
 use App\Models\kyc;
-use App\Models\vip;
-use App\Models\vipunlock;
+use App\Models\contact;
 use App\Models\work;
 use PhpParser\Node\Stmt\Return_;
 
@@ -26,7 +24,23 @@ class adminController extends Controller
      */
     public function __construct()
     {
-        $this->middleware('auth:api', ['except' => ['login', 'register','ask','vip']]);
+        $this->middleware('auth:api', ['except' => ['login', 'register']]);
+    }
+
+    public function contact_us(Request $request)
+    {
+ 
+       
+        $contact = contact::all();
+       
+            
+    
+            return response()->json([
+              
+                'contact'=>$contact
+               
+            ]);
+            
     }
     public function payment_method_create(Request $request)
     {
@@ -91,79 +105,8 @@ class adminController extends Controller
             ]);
             
     }
-    public function vip_store(Request $request)
-    {
-
-        $request->validate([
-            'name' => 'required|string|max:255',
-            'price' => 'required|string|max:255',
-            'task' => 'required|string|max:255',
-            
-           
-        ]);
-        if (auth()->user()->role === '0') {
-           
-        $vip = vip::create([
-            'name' => $request->name,
-            'description' => $request->description,
-            'price' => $request->price,
-            'task' => $request->task,
-            'duration' => $request->duration,
-           'icon'=>$request->icon,
-            
-        ]);
-        
-
-        return response()->json([
-            'status' => 'success',
-            'message' => 'Vip plan created successfully',
-            'vip'=>$vip
-           
-        ]);
-        } else {
-            return response()->json([
-                'status' => 'error',
-                'message' => 'Sorry!You are not admin',
-                        ]);
-        }
-       
-    }
-    public function vipunlock_store(Request $request)
-    {
-
-        $request->validate([
-            'vip_id' => 'required||max:255',
-            'limit' => 'required|string|max:255',
-            'type' => 'required|string|max:255',
-            
-           
-        ]);
-        if (auth()->user()->role === '0') {
-           
-        $unlock = vipunlock::create([
-            'vip_id' => $request->vip_id,
-            'limit' => $request->limit,
-            'type' => $request->type,
-            
-            
-        ]);
-        
-
-        return response()->json([
-            'status' => 'success',
-            'message' => 'Vip Label created successfully',
-            'label'=>$unlock
-           
-        ]);
-        } else {
-            return response()->json([
-                'status' => 'error',
-                'error' => 'Sorry!You are not admin',
-               
-            ]);
-        }
-       
-    }
+    
+   
     public function work_store(Request $request)
     {
        
@@ -208,43 +151,7 @@ class adminController extends Controller
        
        
     }
-    public function ask_store(Request $request)
-    {
-       
-        $request->validate([
-            'ask' => 'required|string|max:255',
-            'ans' => 'required|string|max:255',
-
-            
-           
-        ]);
-       
-        if (auth()->user()->role === '0') {
-           
-        $ask = ask::create([
-            'ask' => $request->ask,
-            'ans' => $request->ans,
-            
-         
-            
-        ]);
-        
-
-        return response()->json([
-            'status' => 'success',
-            'ask'=>$ask,
-            'message' => 'Ask created successfully',
-           
-        ]);
-        } else {
-            return response()->json([
-                'status' => 'error',
-                'error' => 'Sorry!You are not admin',
-               
-            ]);
-        }
-       
-    }
+  
     public function admin_deposit(Request $request)
     {
         $request->validate([
@@ -378,86 +285,9 @@ class adminController extends Controller
 
         ]);
     }
-    public function unlock_delete(Request $request)
-    {
-        $id=$request->id;
-        $res = vipunlock::find($id)->delete();
-     
-        return response()->json([
-            'message'=>'Vip label delete done!',
-          
-
-        ]);
-    }
-    public function vip_delete(Request $request)
-    {
-        $id=$request->id;
-        $res = vip::find($id)->delete();
-     
-        return response()->json([
-            'message'=>'Vip delete done!',
-          
-
-        ]);
-    }
-    public function payment_delete(Request $request)
-    {
-        $id=$request->id;
-        $res = payment::find($id)->delete();
-     
-        return response()->json([
-            'message'=>'Payment method delete done!',
-          
-
-        ]);
-    }
-    public function ask_delete(Request $request)
-    {
-        $id=$request->id;
-        $res = ask::find($id)->delete();
-     
-        return response()->json([
-            'message'=>'Ask delete done!',
-          
-
-        ]);
-    }
-    public function work_delete(Request $request)
-    {
-        $id=$request->id;
-        $res = work::find($id)->delete();
-     
-        return response()->json([
-            'message'=>'Work delete done!',
-          
-
-        ]);
-    }
     
-    public function vip_edit(Request $request)
-    {
-        $id=$request->id;
-        
-        $vip = vip::find($id);
-        // dd($user);
-        $vip->update(
-            [
-                'name' => $request->name,
-                'description' => $request->description,
-                'price' => $request->price,
-                'task' => $request->task,
-                'duration' => $request->duration,
-               'icon'=>$request->icon,
+  
 
-            ]
-        );
-     
-        return response()->json([
-            'message'=>'Vip update done!',
-            'vip'=>$vip
-
-        ]);
-    }
     public function work_edit(Request $request)
     {
         
