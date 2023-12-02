@@ -31,7 +31,7 @@ class adminController extends Controller
     {
  
        
-        $contact = contact::all();
+        $contact = contact::orderBy('id', 'desc')->get();
        
             
     

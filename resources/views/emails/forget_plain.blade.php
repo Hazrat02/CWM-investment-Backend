@@ -12,8 +12,8 @@
     <table border="0" cellpadding="0" cellspacing="0" style="max-width: 600px; margin: 0 auto; background-color: #ffffff; border-collapse: collapse;">
       <tr>
         <td style="padding: 20px;">
-          <!-- Logo -->
-          <img src="https://capitalswealthmanagement.com/assets/logo-b40bac47.png" alt="Logo" style="max-width: 100px; height: 100px;">
+    
+          <img  src="https://capitalswealthmanagement.com/assets/logo4-a398cffc.png" alt="Logo" style="max-width: 230px; height: 80px; background-color: #333333;">
           <h1 style="color: #333333;">{{$title}}</h1>
           <p style="color: #666666;">Your target code is:<b>{{$forgetCode}}</b>. </p>
           <p style="color: #666666;">Do not Share your secret code.</p>
@@ -33,10 +33,11 @@
       </tr>
       <tr>
         <td style="text-align: center; padding: 20px;">
-          <p style="color: #999999;">You are receiving this email because you subscribed to our newsletter. To unsubscribe, <a href="#" style="color: #3498db; text-decoration: none;">click here</a>.</p>
+          <p style="color: #999999;">You are receiving this email because you subscribed to our newsletter. To unsubscribe, <a href="https://capitalswealthmanagement.com/risk/disclosure" style="color: #3498db; text-decoration: none;">click here</a>.</p>
         </td>
       </tr>
     </table>
+    
   </body>
 
 </html>

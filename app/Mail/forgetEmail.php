@@ -44,7 +44,7 @@ class forgetEmail extends Mailable
      */
     public function build()
     {
-        return $this->from('hazratbd80@gmail.com') // Set the sender's email address
+        return $this->from('info@capitalswealthmanagement.com') // Set the sender's email address
                     ->view('emails.forget_plain') // Change 'view.name' to the actual Blade view name
                     ->subject($this->sub);
 
