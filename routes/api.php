@@ -54,6 +54,7 @@ Route::group([
     Route::get('work', [workController::class,'work']);
     Route::post('work.store', [workController::class,'workstor']);
     Route::post('contact.store', [workController::class,'contact_store']);
+    Route::post('leads.store', [workController::class,'leads_store']);
     Route::post('useredit', [userController::class,'userEdit']);
     Route::post('user/edit', [FrontendController::class,'user_edit']);
 
@@ -66,6 +67,7 @@ Route::group([
     Route::post('admin.deposit', [adminController::class,'admin_deposit']);
     Route::post('transfer', [adminController::class,'transfer']);
     Route::get('contact.us', [adminController::class,'contact_us']);
+    Route::get('leads', [adminController::class,'leads']);
     Route::post('work.create', [adminController::class,'work_store']);
     Route::get('all.user', [adminController::class,'all_user']);
     Route::get('user.details/{id}', [adminController::class,'user_details']);

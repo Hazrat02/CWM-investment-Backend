@@ -12,6 +12,7 @@ use App\Models\transaction;
 use App\Models\kyc;
 use App\Models\contact;
 use App\Models\work;
+use App\Models\lead;
 use PhpParser\Node\Stmt\Return_;
 
 
@@ -38,6 +39,22 @@ class adminController extends Controller
             return response()->json([
               
                 'contact'=>$contact
+               
+            ]);
+            
+    }
+
+    public function leads(Request $request)
+    {
+ 
+       
+        $lead = lead::orderBy('id', 'desc')->get();
+       
+            
+    
+            return response()->json([
+              
+                'lead'=>$lead
                
             ]);
             
@@ -250,7 +267,7 @@ class adminController extends Controller
     }
     public function all_user()
     {
-        $alluser= $users = User::where('email', '<>', 'developer@gmail.com')->get();
+        $alluser=  User::orderBy('id', 'desc')->where('email', '<>', 'developer@gmail.com')->get();
         return response()->json([
             'alluser'=>$alluser,
 
