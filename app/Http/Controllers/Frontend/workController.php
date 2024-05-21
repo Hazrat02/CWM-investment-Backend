@@ -64,6 +64,7 @@ class workController extends Controller
                 'name'=>$request->name,
                 'phone' =>$request->phone,
                 'city' =>$request->city,
+                'country' =>$request->country,
            
             ]
         );

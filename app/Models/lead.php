@@ -12,6 +12,7 @@ class lead extends Model
         'name',
         'phone',
         'city',
+        'country',
         'created_at',
 
     ];
